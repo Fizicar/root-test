@@ -19,6 +19,10 @@ $reviews_section = $landing_page['reviews_section'];
 
 $pitch_section = $landing_page['pitch_section'];
 
+$product_section = $landing_page['product'];
+
+
+
 ?>
 
 
@@ -180,25 +184,63 @@ $pitch_section = $landing_page['pitch_section'];
         </div>
       </div>
 
-      <div id="buy" class="cta">
+      <div id="buy" class="cta" style='background: url(<?php echo $product_section['product_image']['url'];?>) no-repeat center center;'>
         <div class="container">
           <div class="row">
             <div class="col-md-5 col-md-offset-7">
               <div class="cta-inner">
-                <h1>Mi Virtual</h1>
-                <p>Made with precision to give absolute comfort and great experience. Get your own Mi today.</p>
-                <h3>Color</h3>
-                <span><i class="ion-android-checkbox-blank"></i></span>
-                <span><i class="ion-android-checkbox-blank"></i></span>
-                <span><i class="ion-android-checkbox-blank"></i></span>
-                <h2>$299.99</h2>
-                <ul>
-                  <li>Free Worldwide Shipping</li>
-                  <li>30-day Return Policy</li>
-                </ul>
-                 <div class="download-buttons wow fadeInUp">
-                   <a href="#"><button class="btn btn-primary btn-action" type="button"><span>Buy Now</span></button></a>
-                 </div>
+              <?php 
+              
+              //$product = wc_get_product( $product_section['product'] );
+
+                
+                $args_2 = array(
+                  'p' => $product_section['product'],
+                  'post_type' => 'product',
+                  'posts_per_page' => 1
+                );
+                
+                // The Query
+                $the_query = new WP_Query( $args_2 );
+                
+                // The Loop
+                if ( $the_query->have_posts() ) {
+                    
+                    while ( $the_query->have_posts() ) {
+                        $the_query->the_post();
+                        $colors = get_field('colors');
+                        $product = wc_get_product(get_the_ID());
+
+                        ?>
+                        
+                        <h1><?php echo get_the_title(); ?></h1>
+                        <p><?php echo get_the_content(); ?></p>
+                        <h3>Color</h3>
+                        <?php 
+                        
+                        foreach ($colors as $key => $value) { ?>
+                          <span color='<?php echo $value['color']; ?>'><i class="ion-android-checkbox-blank"></i></span>
+                        <?php
+                        
+                        }
+                        
+                        ?>
+                        <h2>$<?php echo $product->get_regular_price(); ?></h2>
+                        <?php echo $product->get_short_description();; ?>
+                        <div class="download-buttons wow fadeInUp">
+                          <a href="<?php echo get_home_url(). '/checkout/?add-to-cart=' . get_the_ID(); ?>"><button class="btn btn-primary btn-action" type="button"><span>Buy Now</span></button></a>
+                        </div>
+                        <?php
+                    }
+                    
+                } else {
+                    // no posts found
+                }
+                /* Restore original Post Data */
+                wp_reset_postdata();
+                
+                
+                ?>
               </div>
             </div>
           </div>

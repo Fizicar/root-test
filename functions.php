@@ -207,4 +207,73 @@ if ( defined( 'JETPACK__VERSION' ) ) {
 
 
 
+// Skip to Checkout function
+
+add_filter('woocommerce_add_to_cart_redirect', 'themeprefix_add_to_cart_redirect');
+
+function themeprefix_add_to_cart_redirect() {
+ global $woocommerce;
+ $checkout_url = wc_get_checkout_url();
+ return $checkout_url;
+}
+
+//Add New Pay Button Text
+add_filter( 'woocommerce_product_single_add_to_cart_text', 'themeprefix_cart_button_text' ); 
+add_filter( 'woocommerce_product_add_to_cart_text', 'themeprefix_cart_button_text' ); 
+ 
+function themeprefix_cart_button_text() {
+ return __( 'But Now', 'woocommerce' );
+}
+
+// Reviews Custom Post Type
+
+function cptui_register_my_cpts_reviews() {
+
+	/**
+	 * Post Type: Reviews.
+	 */
+
+	$labels = [
+		"name" => __( "Reviews", "root-theme" ),
+		"singular_name" => __( "Review", "root-theme" ),
+		"menu_name" => __( "Reviews", "root-theme" ),
+		"all_items" => __( "All Reviews", "root-theme" ),
+		"add_new" => __( "Add Review", "root-theme" ),
+		"add_new_item" => __( "Add new Review", "root-theme" ),
+		"edit_item" => __( "Edit Review", "root-theme" ),
+		"new_item" => __( "New Review", "root-theme" ),
+		"view_item" => __( "View Review", "root-theme" ),
+		"view_items" => __( "View Reviews", "root-theme" ),
+		"search_items" => __( "Search Reviews", "root-theme" ),
+		"not_found" => __( "No Reviews found", "root-theme" ),
+	];
+
+	$args = [
+		"label" => __( "Reviews", "root-theme" ),
+		"labels" => $labels,
+		"description" => "Product Rewiews",
+		"public" => false,
+		"publicly_queryable" => true,
+		"show_ui" => true,
+		"show_in_rest" => true,
+		"rest_base" => "",
+		"rest_controller_class" => "WP_REST_Posts_Controller",
+		"has_archive" => false,
+		"show_in_menu" => true,
+		"show_in_nav_menus" => true,
+		"delete_with_user" => false,
+		"exclude_from_search" => false,
+		"capability_type" => "post",
+		"map_meta_cap" => true,
+		"hierarchical" => false,
+		"rewrite" => [ "slug" => "reviews", "with_front" => true ],
+		"query_var" => true,
+		"supports" => [ "title", "editor", "thumbnail" ],
+	];
+
+	register_post_type( "reviews", $args );
+}
+
+add_action( 'init', 'cptui_register_my_cpts_reviews' );
+
 
