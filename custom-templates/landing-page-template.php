@@ -1,26 +1,42 @@
 <?php /* Template Name: Landing Page Template */ 
 
 get_header();
+
+
+// ACF Field
+
+$landing_page = get_field('landing_page');
+
+$hero_section = $landing_page['hero_section'];
+
+$specs_section = $landing_page['spec_section'];
+
+$features_section = $landing_page['features_section'];
+
+$video_section = $landing_page['video_section'];
+
+$reviews_section = $landing_page['reviews_section'];
+
+$pitch_section = $landing_page['pitch_section'];
+
 ?>
 
 
-      <div id="main" class="main main-2">
-        <div class="hero-2">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-5 col-sm-6">
-                <div class="intro">
-                  <h1 class="wow fadeInDown" data-wow-delay="0.1s"><span>Mi</span> reality is now going virtual</h1>
-                  <p class="wow fadeInDown" data-wow-delay="0.2s">Best in class virtual reality gear to make your everyday experience great. Go check it.</p>
-                  <a href="#" class="btn btn-action btn-fb wow fadeInDown" data-wow-delay="0.3s"><span>Buy Now</span></a>
-                </div>
-              </div>
-              <div class="col-md-7 col-sm-6">
-                <img class="img-responsive" src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/images/product.png" alt="Feature">
-              </div>
+<div id="main" class="main main-2">
+    <div class="hero-2">
+        <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-6">
+            <div class="intro">
+                <?php echo $hero_section['content'] ;?>
             </div>
-          </div>
-        </div><!-- Pi-Hero -->
+            </div>
+            <div class="col-md-7 col-sm-6">
+                <img class="img-responsive" src="<?php echo $hero_section['image']['url'] ;?>" alt="<?php echo $hero_section['image']['alt'] ;?>">
+            </div>
+        </div>
+    </div>
+</div><!-- Pi-Hero -->
 
 
 
@@ -29,71 +45,33 @@ get_header();
             <div class="row">
               <div class="col-sm-12">
                 <div class="boxed-intro text-center wow fadeInDown">
-                  <h4>Mi Features</h4>
-                  <h1>Exellent Features we deliver</h1>
-                  <p>From development to the delivery of performance we don't compromise <br> at any level to make your
-                     products the best</p>
+                     <h4><?php echo $specs_section['header_subtitle']; ?></h4>
+                  <h1><?php echo $specs_section['header_title']; ?></h1>
+                  <p><?php echo $specs_section['header_content']; ?></p>
                 </div>
               </div>
-              <div class="col-md-3 col-sm-4 wow fadeInDown">
-                <div class="box-inner">
-                  <div class="box-icon">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/1.png" width="45" alt="Feature">
-                  </div>
-                  <div class="box-info">
-                    <h1>Some heading here</h1>
-                    <p>Type some text that relates to the above unrelated heading you just typed now to make it look good.</p>
-                  </div>
-                  <div class="box-arrow">
-                    <a href="#"><i class="ion-ios-arrow-thin-right"></i></a>
-                  </div>
-                </div>
-              </div>
+              <?php
 
-              <div class="col-md-3 col-sm-4 wow fadeInDown">
-                <div class="box-inner">
-                  <div class="box-icon">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/2.png" width="45" alt="Feature">
-                  </div>
-                  <div class="box-info">
-                    <h1>Some heading here</h1>
-                    <p>Some text that somehow relates to the above illogical heading I typed just now should be placed here.</p>
-                  </div>
-                  <div class="box-arrow">
-                    <a href="#"><i class="ion-ios-arrow-thin-right"></i></a>
+              foreach ($specs_section['spec_boxes'] as $key => $value) { ?>
+                <div class="col-md-3 col-sm-4 wow fadeInDown">
+                  <div class="box-inner">
+                    <div class="box-icon">
+                      <img src="<?php echo $value['box_icon']['url'];?>" width="45" alt="Feature">
+                    </div>
+                    <div class="box-info">
+                      <?php echo $value['box_info'];?>
+                    </div>
+                    <div class="box-arrow">
+                      <a href="<?php echo $value['box_link'];?>"><i class="ion-ios-arrow-thin-right"></i></a>
+                    </div>
                   </div>
                 </div>
-              </div>
+              <?php
+              
+              }
 
-              <div class="col-md-3 col-sm-4 wow fadeInDown">
-                <div class="box-inner">
-                  <div class="box-icon">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/3.png" width="45" alt="Feature">
-                  </div>
-                  <div class="box-info">
-                    <h1>Some heading here</h1>
-                    <p>A different text should appear here because people get really bore seeing the same shi it everywhere.</p>
-                  </div>
-                  <div class="box-arrow">
-                    <a href="#"><i class="ion-ios-arrow-thin-right"></i></a>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-3 col-sm-4 wow fadeInDown">
-                <div class="box-inner">
-                  <div class="box-icon">
-                    <img src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/4.png" width="45" alt="Feature">
-                  </div>
-                  <div class="box-info">
-                    <h1>Some heading here</h1>
-                    <p>Well nothing happens what you type here because most people don't even give a damn about this block.</p>
-                  </div>
-                  <div class="box-arrow">
-                    <a href="#"><i class="ion-ios-arrow-thin-right"></i></a>
-                  </div>
-                </div>
-              </div>
+              ?>
+            
             </div>
           </div>
         </div>
@@ -104,16 +82,12 @@ get_header();
             <div class="row">
               <div class="col-sm-6">
                 <div class="features-text wow fadeInDown">
-                  <h2>Real time traffic and activity demographics</h2>
-                    <p>I don't know what to type here so let me fill some random text. Lorem ipsum is hard to
-                      consume and I use it as a last resort. So, I'll fill random text please and you don't even
-                      have to read it.</p>
-                      <button class="btn btn-primary btn-action" type="button"><span>Buy Now</span></button>
+                  <?php echo $features_section['features_content']; ?>
                 </div>
               </div>
               <div class="col-sm-6">
                 <div class="features-image wow fadeInRight">
-                  <img class="img-responsive" src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/images/oculus.png" alt="Image">
+                  <img class="img-responsive" src="<?php echo $features_section['features_image']['url']; ?>" alt="<?php echo $features_section['features_image']['alt']; ?>">
                 </div>
               </div>
             </div>
@@ -124,15 +98,12 @@ get_header();
         <div class="flex-split">
           <div class="f-left">
             <div class="left-content wow fadeInLeft" data-wow-delay="0s">
-              <h2 class="wow fadeInDown" data-wow-delay="0.1s"><span>Virtual Reality</span> taken to the next level</h2>
-              <p class="wow fadeInDown" data-wow-delay="0.2s">Just get the code and sit tight, you'll witness its power and performance in lead conversion.
-                 Powerful and productive technology. Experience, then believe.</p>
-              <a href="#" class="btn btn-action wow fadeInDown" data-wow-delay="0.3s"><span>Know More</span></a>
+              <?php echo $video_section['video_content']; ?>
             </div>
           </div>
-          <div class="f-right">
+          <div class="f-right" style='background: url(<?php echo $video_section['video_background_image']['url']; ?>) no-repeat center center'>
             <div class="video-icon hidden-xs text-center">
-              <a class="popup wow fadeInUp" data-wow-delay="0.2s" href="https://www.youtube.com/watch?v=6NC_ODHu5jg"><i class="ion-ios-play"></i></a>
+              <a class="popup wow fadeInUp" data-wow-delay="0.2s" href="<?php echo $video_section['video_url']; ?>"><i class="ion-ios-play"></i></a>
             </div>
           </div>
         </div>
@@ -143,42 +114,57 @@ get_header();
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2">
                 <div class="reviews owl-carousel owl-theme">
-                  <div class="review-single"><img class="img-circle" src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/review-1.png" alt="Client Testimonoal" />
-                    <div class="review-text wow fadeInDown" data-wow-delay="0.2s">
-                      <p>Going to use some lorem here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer iaculis quis tellus ac vestibulum.  Etiam fermentum nisl ac venenatis rhoncus.</p>
-                      <h3>- Thomas Young</h3>
-                      <h3>Vice President Primal Inc</h3>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                    </div>
-                  </div>
-                  <div class="review-single"><img class="img-circle" src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/review-2.png" alt="Client Testimonoal" />
-                    <div class="review-text">
-                      <p>Going to use some lorem here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer iaculis quis tellus ac vestibulum.  Etiam fermentum nisl ac venenatis rhoncus.</p>
-                      <h3>- Neil Harris</h3>
-                      <h3>President Proton LLC</h3>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-ios-star-half"></i>
-                    </div>
-                  </div>
-                  <div class="review-single"><img class="img-circle" src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/review-3.png" alt="Client Testimonoal" />
-                    <div class="review-text">
-                      <p>Going to use some lorem here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer iaculis quis tellus ac vestibulum.  Etiam fermentum nisl ac venenatis rhoncus.</p>
-                      <h3>- Alison Burgers</h3>
-                      <h3>CEO Marga Holdings</h3>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-star"></i>
-                      <i class="ion ion-ios-star-half"></i>
-                    </div>
-                  </div>
+                <?php 
+
+                $args = array(
+                  'post__in' => $reviews_section,
+                  'post_type' => 'reviews'
+                );
+                
+                // The Query
+                $the_query = new WP_Query( $args );
+                
+                // The Loop
+                if ( $the_query->have_posts() ) {
+                    
+                    while ( $the_query->have_posts() ) {
+                        $the_query->the_post();
+                        $review_image = get_field('review_image');
+                        $review = get_field('review');
+                        $job = get_field('job_title');
+                        $rating = get_field('rating');
+                        ?>
+                        <div class="review-single"><img class="img-circle" src="<?php echo $review_image['url']  ;?>" alt="Client Testimonoal" />
+                        <div class="review-text wow fadeInDown" data-wow-delay="0.2s">
+                          <p><?php echo $review; ?></p>
+                          <h3>- <?php echo get_the_title(); ?></h3>
+                          <h3><?php echo $job; ?></h3>
+                          <?php 
+                          
+                          for ($x = 0; $x < $rating; $x++) { ?>
+                            <i class="ion ion-star"></i>
+                          <?php 
+
+                          }
+                          
+                          ?>
+                          
+                          
+                        </div>
+                      </div>
+                        <?php
+                    }
+                    
+                } else {
+                    // no posts found
+                }
+                /* Restore original Post Data */
+                wp_reset_postdata();
+                
+                
+                ?>
+                  
+
                 </div>
               </div>
             </div>
@@ -186,14 +172,10 @@ get_header();
         </div>
 
 
-      <div class="pitch-2">
+      <div class="pitch-2" style='background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5)), url(<?php echo $pitch_section['background_image']['url'];?>) no-repeat center center; background-size: cover;'>
         <div class="container">
           <div class="pitch-inner wow fadeInRight">
-            <h4>Why you need our pixel</h4>
-            <h1>Unmatched performance in the high-end Android range.</h1>
-            <p>Just kidding you have to pay every month or every year to get all the benefits
-              we mentioned everywhere. Everything comes at a cost.</p>
-            <button class="btn btn-primary btn-action" type="button"><span>Buy Now</span></button>
+            <?php echo $pitch_section['content']; ?>
           </div>
         </div>
       </div>
@@ -215,7 +197,7 @@ get_header();
                   <li>30-day Return Policy</li>
                 </ul>
                  <div class="download-buttons wow fadeInUp">
-                   <a href="#"><img src="<?php echo get_home_url() . "/wp-content/themes/root-theme/root-html/" ;?>assets/icons/amazon.png" width="150" alt="Download from Play Store" /></a>
+                   <a href="#"><button class="btn btn-primary btn-action" type="button"><span>Buy Now</span></button></a>
                  </div>
               </div>
             </div>

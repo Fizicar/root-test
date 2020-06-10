@@ -9,6 +9,9 @@
  * @package root-theme
  */
 
+
+$navigation = wp_get_nav_menu_items(2);
+
 ?>
 <!doctype html>
 <html <?php language_attributes(); ?>>
@@ -38,12 +41,29 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse navbar-right" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a class="page-scroll" href="#main">Home</a></li>
-                <li><a class="page-scroll" href="#specs">Specs</a></li>
-                <li><a class="page-scroll" href="#features">Features</a></li>
-                <li><a class="page-scroll" href="#reviews">Reviews</a></li>
-                <li><a class="page-scroll" href="#buy">Pricing</a></li>
-                <li><a href="#buy" class="btn btn-nav page-scroll wow fadeInDown" data-wow-delay="0.3s"><span>Buy Now</span></a></li>
+				<?php 
+				
+				foreach ($navigation as $key => $value) { 
+					
+					if($value->post_title == 'Buy Now'){ ?>
+
+					<li><a href="<?php echo $value->url; ?>" class="btn btn-nav page-scroll wow fadeInDown" data-wow-delay="0.3s"><span><?php echo $value->post_title; ?></span></a></li>
+
+					<?php
+					}
+					else{ ?>
+						<li><a class="page-scroll" href="<?php echo $value->url; ?>"><?php echo $value->post_title; ?></a></li>
+					<?php
+					}
+					?>
+					
+				<?php
+				
+				}
+				
+				?>
+                
+                
             </ul>
           </div>
         </div>
